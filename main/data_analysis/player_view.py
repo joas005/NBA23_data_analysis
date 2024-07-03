@@ -183,7 +183,7 @@ dreb_stl_blk_pg_table = data_merged[
 ]
 dreb_stl_blk_pg_table.rename(columns={"PName": "Player name"}, inplace=True)
 dreb_stl_blk_pg_table.sort_values(by="DEF_ACTIONS", ascending=False)
-dreb_stl_blk_pg_table = dreb_stl_blk_pg_table.head(50)
+dreb_stl_blk_pg_table.head(50)
 
 dreb_stl_blk_pg_3d_3graph = px.scatter_3d(
     data_frame=dreb_stl_blk_pg_table,
@@ -224,28 +224,6 @@ blk_pf_min_graph = (
     .update_layout(showlegend=False)
 )
 
-# ### Como estão distribuidos os jogadores em termos de roubos de bola e rebotes proporcional ao número de jogos
-
-stl_reb_min_graph = (
-    px.scatter(
-        data_frame=data_merged,
-        x="STL",
-        y="DREB",
-        size="Min",
-        hover_data="PName",
-        template="plotly_dark",
-        color="PName",
-        labels={
-            "STL": "Steals made",
-            "DREB": "Defensive rebounds made",
-            "Min": "Minutes played",
-            "PName": "Player name",
-        },
-    )
-    .update_traces(marker=dict(line=dict(width=1, color="DarkSlateGrey")))
-    .update_layout(showlegend=False)
-)
-
 defensive_data = {
     "Player with the most defensive rebounds": most_dreb,
     "Player with the most steals": most_stl,
@@ -253,7 +231,6 @@ defensive_data = {
     "Player with the most personal fouls": most_pf,
     "Players with the most defensive rebounds, steals and blocks per game in a 3d graph": dreb_stl_blk_pg_3d_3graph,
     "Distributions of blocks and personal fouls, with size proportional to minutes played by each player": blk_pf_min_graph,
-    "Distributions of steals and defensive rebounds, with size proportional to minutes played by each player": stl_reb_min_graph,
 }
 
 data_to_plot = [
