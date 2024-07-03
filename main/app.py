@@ -1,5 +1,5 @@
 import streamlit as st
-from st_pages import Page, show_pages, add_page_title, hide_pages
+from st_pages import Page, show_pages
 
 st.set_page_config(
     page_title="NBA 2023 stats",
@@ -11,6 +11,9 @@ st.set_page_config(
         "About": "## Projeto de dados da temporada 2022-2023 da NBA.",
     },
 )
+
+with open('main\static\style\style.css') as f:
+    st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
 show_pages(
     [

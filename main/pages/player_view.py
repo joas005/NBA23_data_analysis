@@ -8,6 +8,7 @@ from data_analysis.player_view import (
     offensive_data,
     defensive_data,
     data_to_plot,
+    create_player_vs_avarage_graph,
     specific_player_data,
 )
 
@@ -53,17 +54,8 @@ my_bar.empty()
 
 col1, col2 = st.columns(2)
 
-st.markdown(
-    """
-    <style>
-    .center-table {
-        display: flex;
-        justify-content: center;
-    }
-    </style>
-    """,
-    unsafe_allow_html=True,
-)
+with open("main/static/style/style.css") as f:
+    st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
 with col1:
     st.header("Description")
@@ -85,14 +77,14 @@ if option == "Offensive":
 
     for chave, dado in islice(offensive_data.items(), 0, 6):
         st.markdown(
-            f"<p style='font-size: 1.1em;'>{chave}: <b style='color: #e11d48; font-size: 1.1em;'>{dado}</b></p>",
+            f"<p>{chave}: <b class='rose_highlight'>{dado}</b></p>",
             unsafe_allow_html=True,
         )
 
     st.subheader("Top 10 players with the most triple doubles")
     st.markdown(
         f""" 
-         <div class='center-table'>
+         <div class='center-container'>
             {offensive_data["Top 10 players with the most triple doubles"].to_html(index=False)}
          </div>
         """,
@@ -101,14 +93,17 @@ if option == "Offensive":
 
     for chave, dado in islice(offensive_data.items(), 7, None):
         st.subheader(chave)
+        st.markdown(f"<div class='center-container'>", unsafe_allow_html=True)
         st.plotly_chart(dado)
+        st.markdown(f"</div>", unsafe_allow_html=True)
+
 
 if option == "Defensive":
-    st.subheader("Defensive")
+    st.header("Defensive")
 
     for chave, dado in islice(defensive_data.items(), 0, 4):
         st.markdown(
-            f"<p style='font-size: 1.1em;'>{chave}: <b style='color: #e11d48; font-size: 1.1em;'>{dado}</b></p>",
+            f"<p>{chave}: <b class='rose_highlight'>{dado}</b></p>",
             unsafe_allow_html=True,
         )
 
@@ -117,7 +112,7 @@ if option == "Defensive":
     )
     st.markdown(
         f""" 
-         <div class='center-table'>
+         <div class='center-container'>
             {defensive_data[
                 "Top 10 players with the most defensive rebounds, steals and blocks per game"
             ].to_html(index=False)}
@@ -128,81 +123,111 @@ if option == "Defensive":
 
     for chave, dado in islice(defensive_data.items(), 5, None):
         st.subheader(chave)
+        st.markdown(f"<div class='center-container'>", unsafe_allow_html=True)
         st.plotly_chart(dado)
+        st.markdown(f"</div>", unsafe_allow_html=True)
+
 
 if option == "Specific":
-    st.subheader("Specific")
+    st.header("Specific")
 
+    st.markdown(
+        "<p>Enter the <b class='rose_highlight'>full name</b> of the player you wish to see:</p>",
+        unsafe_allow_html=True,
+    )
     player_selected = st.text_input(
-        "Insert the full name of the player you wish to see",
+        label="Insert the full name of the player you wish to see",
         placeholder="Joel Embiid",
+        label_visibility="hidden",
     )
 
     if player_selected == "":
-        player_selected_data = specific_player_data("Joel Embiid")
-        player_selected_df = player_selected_data[0]
-        player_vs_avarage_graph = player_selected_data[1]
+        player_selected = "Joel Embiid"
+        player_selected_df = specific_player_data(player_selected)
 
     else:
-        player_selected_data = specific_player_data(player_selected)
-        player_selected_df = player_selected_data[0]
-        player_vs_avarage_graph = player_selected_data[1]
+        player_selected_df = specific_player_data(player_selected)
 
-    col1, col2 = st.columns(2)
+    if player_selected_df["PName"].to_string(index=False) != player_selected:
+        player_found = False
+    else:
+        player_found = True
 
-    with col1:
-        st.header(player_selected_df["PName"].to_string(index=False))
+    if not (player_found):
         st.markdown(
-            f"""
-            <ul>
-                <li>
-                    <p style='font-size: 1.6em;'>Players's age: <span style='color: #4f46e5;'>{player_selected_df['Age'].to_string(index=False)}</span></p>
-                </li>
-                <li>
-                    <p style='font-size: 1.6em;'>Player's position: <span style='color: #4f46e5;'>{player_selected_df['POS'].to_string(index=False)}</span></p>
-                </li>
-                <li>
-                    <p style='font-size: 1.6em;'>Players's DD2: <span style='color: #4f46e5;'>{player_selected_df['DD2'].to_string(index=False)}</span></p>
-                </li>
-                <li>
-                    <p style='font-size: 1.6em;'>Player's TD3: <span style='color: #4f46e5;'>{player_selected_df['TD3'].to_string(index=False)}</span></p>
-                </li>
-                <li>
-                    <p style='font-size: 1.6em;'>Player's avarage points per game: <span style='color: #4f46e5;'>{player_selected_df['PTSperGP'].to_string(index=False)}</span></p>
-                </li>
-                <li>
-                    <p style='font-size: 1.6em;'>Player's total defensive actions: <span style='color: #4f46e5;'>{player_selected_df['DEF_ACTIONS'].to_string(index=False)}</span></p>
-                </li>
-            </ul>""",
+            f"<p>Player <b class='rose_highlight'>{player_selected}</b> not found! Please make sure you're typing the full name of a valid NBA 2023 player!</p>",
             unsafe_allow_html=True,
         )
 
-    with col2:
-        st.header(player_selected_df["team_name"].to_string(index=False))
+    if player_found:
+        col1, col2 = st.columns(2)
+
+        with col1:
+            st.header(player_selected_df["PName"].to_string(index=False))
+            st.markdown(
+                f"""
+                <ul>
+                    <li>
+                        <p class='major_data'>Players's age: <b class='indigo_highlight'>{player_selected_df['Age'].to_string(index=False)}</b></p>
+                    </li>
+                    <li>
+                        <p class='major_data'>Player's position: <b class='indigo_highlight'>{player_selected_df['POS'].to_string(index=False)}</b></p>
+                    </li>
+                    <li>
+                        <p class='major_data'>Player's number of DD2: <b class='indigo_highlight'>{player_selected_df['DD2'].to_string(index=False)}</b></p>
+                    </li>
+                    <li>
+                        <p class='major_data'>Player's number of TD3: <b class='indigo_highlight'>{player_selected_df['TD3'].to_string(index=False)}</b></p>
+                    </li>
+                    <li>
+                        <p class='major_data'>Player's avarage points per game: <b class='indigo_highlight'>{player_selected_df['PTSperGP'].to_string(index=False)}</b></p>
+                    </li>
+                    <li>
+                        <p class='major_data'>Player's total defensive actions: <b class='indigo_highlight'>{player_selected_df['DEF_ACTIONS'].to_string(index=False)}</b></p>
+                    </li>
+                </ul>""",
+                unsafe_allow_html=True,
+            )
+
+        with col2:
+            st.header(player_selected_df["team_name"].to_string(index=False))
+            st.markdown(
+                f"""
+                <div style="display: flex; justify-content: center; align-items: center; height: 100%;">
+                    <img src={player_selected_df["team_img"].to_string(index=False)} alt="Image" style="max-width: 50%;">
+                </div>
+                """,
+                unsafe_allow_html=True,
+            )
+
+        data_col1, data_col2 = st.columns(2)
+
+        for i in range(int(len(data_to_plot) / 2)):
+            with data_col1:
+                st.markdown(
+                    f"<p>{full_name_col[data_to_plot[i]]}: <b class='rose_highlight'>{player_selected_df[data_to_plot[i]].to_string(index=False)}</b></p>",
+                    unsafe_allow_html=True,
+                )
+
+        for j in range(int(len(data_to_plot) / 2), int(len(data_to_plot))):
+            with data_col2:
+                st.markdown(
+                    f"<p>{full_name_col[data_to_plot[j]]}: <b class='rose_highlight'>{player_selected_df[data_to_plot[j]].to_string(index=False)}</b></p>",
+                    unsafe_allow_html=True,
+                )
+
+        st.subheader("Player stats vs avarage stats from the league")
+        selected_data_plot = st.multiselect(
+            "Quais dados você deseja ver?", data_to_plot, default=data_to_plot
+        )
+        player_vs_avarage_graph = create_player_vs_avarage_graph(
+            player_selected_df, selected_data_plot
+        )
         st.markdown(
-            f"""
-            <div style="display: flex; justify-content: center; align-items: center; height: 100%;">
-                <img src={player_selected_df["team_img"].to_string(index=False)} alt="Image" style="max-width: 65%;">
-            </div>
-            """,
+            f""" 
+        <div class='center-container'>
+           {st.plotly_chart(player_vs_avarage_graph)}
+        </div>
+        """,
             unsafe_allow_html=True,
         )
-
-    data_col1, data_col2 = st.columns(2)
-
-    for i in range(int(len(data_to_plot) / 2)):
-        with data_col1:
-            st.markdown(
-                f"<p style='font-size: 1.1em;'>{full_name_col[data_to_plot[i]]}: <b style='color: #e11d48; font-size: 1.1em;'>{player_selected_df[data_to_plot[i]].to_string(index=False)}</b></p>",
-                unsafe_allow_html=True,
-            )
-
-    for j in range(int(len(data_to_plot) / 2), int(len(data_to_plot))):
-        with data_col2:
-            st.markdown(
-                f"<p style='font-size: 1.1em;'>{full_name_col[data_to_plot[j]]}: <b style='color: #e11d48; font-size: 1.1em;'>{player_selected_df[data_to_plot[j]].to_string(index=False)}</b></p>",
-                unsafe_allow_html=True,
-            )
-
-    st.subheader("Player stats vs avarage stats from the league")
-    st.plotly_chart(player_vs_avarage_graph)

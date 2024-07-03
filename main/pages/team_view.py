@@ -24,17 +24,9 @@ my_bar.empty()
 
 col1, col2 = st.columns(2)
 
-st.markdown(
-    """
-    <style>
-    .center-table {
-        display: flex;
-        justify-content: center;
-    }
-    </style>
-    """,
-    unsafe_allow_html=True,
-)
+with open("main/static/style/style.css") as f:
+    st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+
 
 with col1:
     st.header("Description")
@@ -56,21 +48,19 @@ if option == "Offensive":
 
     for chave, dado in itertools.islice(offensive_data.items(), 0, 4):
         st.markdown(
-            f"<p style='font-size: 1.1em;'>{chave}: <b style='color: #e11d48; font-size: 1.1em;'>{dado}</b></p>",
+            f"<p>{chave}: <b class='rose_highlight'>{dado}</b></p>",
             unsafe_allow_html=True,
         )
 
     st.subheader("Teams with best 3 pointers and free throws efficiency")
     st.markdown(
-        (
-            f""" 
-         <div class='center-table'>
+        f""" 
+         <div class='center-container'>
             {offensive_data["Teams with best 3 pointers and free throws efficiency"].to_html(
                 index=False
             )}
          </div>
-        """
-        ),
+        """,
         unsafe_allow_html=True,
     )
 
@@ -78,13 +68,11 @@ if option == "Offensive":
 
     st.subheader("Top 5 scorers")
     st.markdown(
-        (
-            f""" 
-         <div class='center-table'>
+        f""" 
+         <div class='center-container'>
             {offensive_data["Top 5 scorers"].to_html(index=False)}
          </div>
-        """
-        ),
+        """,
         unsafe_allow_html=True,
     )
 
@@ -94,25 +82,23 @@ if option == "Offensive":
 
 
 if option == "Defensive":
-    st.subheader("Defensive")
+    st.header("Defensive")
 
     for chave, dado in itertools.islice(defensive_data.items(), 0, 4):
         st.markdown(
-            f"<p style='font-size: 1.1em;'>{chave}: <b style='color: #e11d48; font-size: 1.1em;'>{dado}</b></p>",
+            f"<p>{chave}: <b class='rose_highlight'>{dado}</b></p>",
             unsafe_allow_html=True,
         )
 
     st.subheader("Teams with the most blocks, steal and defensive rebounds")
     st.markdown(
-        (
-            f""" 
-         <div class='center-table'>
+        f""" 
+         <div class='center-container'>
             {defensive_data[
                 "Teams with the most blocks, steal and defensive rebounds"
             ].to_html(index=False)}
          </div>
-        """
-        ),
+        """,
         unsafe_allow_html=True,
     )
 
@@ -122,12 +108,18 @@ if option == "Defensive":
 
 
 if option == "Specific":
-    st.subheader("Specific")
+    st.header("Specific")
+
+    st.markdown(
+        "<p><b class='rose_highlight'>Select the team</b> you wish to see:</p>",
+        unsafe_allow_html=True,
+    )
 
     selected_team = st.selectbox(
         "Select the team you wish to see",
         all_teams,
         placeholder="Select the team you wish to see",
+        label_visibility="hidden",
     )
 
     selected_team_data = specific_team_data(selected_team)
@@ -140,7 +132,7 @@ if option == "Specific":
             selected_team_data.items(), 1, len(selected_team_data) - 4
         ):
             st.markdown(
-                f"<p style='font-size: 1.1em;'>{chave}: <b style='color: #e11d48; font-size: 1.1em;'>{int(dado)}</b></p>",
+                f"<p>{chave}: <b class='rose_highlight'>{int(dado)}</b></p>",
                 unsafe_allow_html=True,
             )
 

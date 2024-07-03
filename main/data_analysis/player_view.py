@@ -74,11 +74,10 @@ ft_3_2_made_3d_graph = (
         x="3PM",
         y="2PM",
         z="FTM",
-        height=600,
-        width=600,
         hover_data="PName",
         template="plotly_dark",
         color="PName",
+        height=600,
         labels={
             "3PM": "3 points made",
             "2PM": "2 points made",
@@ -102,14 +101,13 @@ ast_pts_min_graph = (
         hover_data="PName",
         template="plotly_dark",
         color="PName",
+        height=600,
         labels={
             "AST": "Assists made",
             "PTS": "Points made",
             "Min": "Minutes played",
             "PName": "Player name",
-        },
-        height=600,
-        width=800,
+        }
     )
     .update_traces(marker=dict(line=dict(width=1, color="DarkSlateGrey")))
     .update_layout(showlegend=False)
@@ -276,41 +274,10 @@ data_to_plot = [
 
 
 def specific_player_data(selected_player):
-    player_selected_row = data_merged[data_merged["PName"] == selected_player]
-    # -
+    return data_merged[data_merged["PName"] == selected_player]
 
-    data_from_player = [
-        "PName",
-        "GP",
-        "W",
-        "L",
-        "Min",
-        "PTS",
-        "FGM",
-        "FGA",
-        "FG%",
-        "3PM",
-        "3PA",
-        "3P%",
-        "FTM",
-        "FTA",
-        "FT%",
-        "OREB",
-        "DREB",
-        "REB",
-        "AST",
-        "TOV",
-        "STL",
-        "BLK",
-        "PF",
-        "FP",
-        "2PM",
-        "2PA",
-        "2P%",
-    ]
 
-    player_df = player_selected_row[data_from_player]
-
+def create_player_vs_avarage_graph(player_df, data_to_plot):
     mean_values = data_merged[data_to_plot].mean()
 
     df_means = (
@@ -321,7 +288,7 @@ def specific_player_data(selected_player):
     df_means = df_means.set_index("Stats").transpose()
 
     df_means["PName"] = "Avarege"
-    
+
     player_vs_avarage = pd.concat([player_df, df_means], ignore_index=True)
 
     player_vs_avarage_long = player_vs_avarage.melt(
@@ -334,14 +301,13 @@ def specific_player_data(selected_player):
         y="Mean",
         color="PName",
         barmode="group",
-        hover_data='Stats',
+        hover_data="Stats",
         labels={
+            "PName": "Player",
             "Mean": "Number",
         },
         template="plotly_dark",
         height=700,
-    ).update_layout(
-        showlegend=False,
     )
 
-    return [player_selected_row, player_vs_avarage_graph]
+    return player_vs_avarage_graph

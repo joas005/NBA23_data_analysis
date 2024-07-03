@@ -17,6 +17,10 @@ time.sleep(1)
 
 my_bar.empty()
 
+with open("main/static/style/style.css") as f:
+    st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+        
+
 st.header("Description")
 st.write(
     "Lorem ipsum dolor sit amet. Et accusamus consectetur vel tempora labore in harum quis qui delectus eius est assumenda dolores ab odit architecto. Qui consequuntur autem et quos impedit quo exercitationem eveniet nam Quis consectetur. Id repellat veritatis ea voluptas dolor non galisum consequuntur est quam quod qui excepturi quia."
@@ -26,7 +30,11 @@ st.header("Offensive positions")
 
 st.subheader("Number of player per positions")
 st.markdown(
-    offensive_data["Number of player per positions"].to_html(index=False),
+    f""" 
+        <div class='center-container'>
+           {offensive_data["Number of player per positions"].to_html(index=False)}
+        </div>
+    """,
     unsafe_allow_html=True,
 )
 

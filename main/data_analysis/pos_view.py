@@ -146,7 +146,6 @@ blk_stl_dreb_pos_3d_graph = px.scatter_3d(
     color="POS",
     size="DEF_ACTIONS",
     opacity=0.6,
-    title="",
     template="plotly_dark",
     hover_data='PName',
     labels={
