@@ -93,10 +93,7 @@ if option == "Offensive":
 
     for chave, dado in islice(offensive_data.items(), 7, None):
         st.subheader(chave)
-        st.markdown(f"<div class='center-container'>", unsafe_allow_html=True)
         st.plotly_chart(dado)
-        st.markdown(f"</div>", unsafe_allow_html=True)
-
 
 if option == "Defensive":
     st.header("Defensive")
@@ -107,25 +104,9 @@ if option == "Defensive":
             unsafe_allow_html=True,
         )
 
-    st.subheader(
-        "Top 10 players with the most defensive rebounds, steals and blocks per game"
-    )
-    st.markdown(
-        f""" 
-         <div class='center-container'>
-            {defensive_data[
-                "Top 10 players with the most defensive rebounds, steals and blocks per game"
-            ].to_html(index=False)}
-         </div>
-        """,
-        unsafe_allow_html=True,
-    )
-
-    for chave, dado in islice(defensive_data.items(), 5, None):
+    for chave, dado in islice(defensive_data.items(), 4, None):
         st.subheader(chave)
-        st.markdown(f"<div class='center-container'>", unsafe_allow_html=True)
         st.plotly_chart(dado)
-        st.markdown(f"</div>", unsafe_allow_html=True)
 
 
 if option == "Specific":
