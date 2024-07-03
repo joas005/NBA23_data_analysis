@@ -10,9 +10,10 @@ st.set_page_config(
         "Report a bug": "https://www.extremelycoolapp.com/bug",
         "About": "## Projeto de dados da temporada 2022-2023 da NBA.",
     },
+    page_icon="main/static/favicon.ico",
 )
 
-with open('main\static\style\style.css') as f:
+with open("main/static/style/style.css") as f:
     st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
 show_pages(
@@ -36,6 +37,5 @@ show_pages(
     ]
 )
 
-st.write("Quer me conhcer? [Clique aqui!](https://github.com/joas005)")
-st.title("Dashboard geral")
-
+st.write("Want to know more about me? [Click here!](https://github.com/joas005)")
+st.title("NBA 2023 stats analysis")
