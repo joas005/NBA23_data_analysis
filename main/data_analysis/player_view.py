@@ -106,7 +106,7 @@ ast_pts_min_graph = (
             "PTS": "Points made",
             "Min": "Minutes played",
             "PName": "Player name",
-        }
+        },
     )
     .update_traces(marker=dict(line=dict(width=1, color="DarkSlateGrey")))
     .update_layout(showlegend=False)
@@ -178,33 +178,28 @@ most_pf = (
 
 # ### Qual é a média de rebotes defensivos, roubos de bola e bloqueio dos jogadores por jogo
 
-top_10_dreb_stl_blk_pg_table = data_merged[
-    ["PName", "DREBperGP", "STLperGP", "BLKperGP"]
-].head(10)
-top_10_dreb_stl_blk_pg_table.rename(
-    columns={"PName": "Player name"}, inplace=True
-)
-top_10_dreb_stl_blk_pg_table.sort_values(
-    by=["DREBperGP", "STLperGP", "BLKperGP"], ascending=False
-)
+dreb_stl_blk_pg_table = data_merged[
+    ["PName", "DREBperGP", "STLperGP", "BLKperGP", "DEF_ACTIONS"]
+]
+dreb_stl_blk_pg_table.rename(columns={"PName": "Player name"}, inplace=True)
+dreb_stl_blk_pg_table.sort_values(by="DEF_ACTIONS", ascending=False)
+dreb_stl_blk_pg_table = dreb_stl_blk_pg_table.head(50)
 
-top_10_dreb_stl_blk_pg_3d_3graph = (
-    px.scatter_3d(
-        data_frame=top_10_dreb_stl_blk_pg_table,
-        x="DREBperGP",
-        y="STLperGP",
-        z="BLKperGP",
-        hover_data="Player name",
-        template="plotly_dark",
-        color="Player name",
-        labels={
-            "BLK": "Blocks made",
-            "STLperGP": "Steals per game",
-            "DREBperGP": "Defensive rebounds per game",
-            "BLKperGP": "Blocks per game",
-        },
-    )
-)
+dreb_stl_blk_pg_3d_3graph = px.scatter_3d(
+    data_frame=dreb_stl_blk_pg_table,
+    x="DREBperGP",
+    y="STLperGP",
+    z="BLKperGP",
+    hover_data="Player name",
+    template="plotly_dark",
+    color="Player name",
+    labels={
+        "BLK": "Blocks made",
+        "STLperGP": "Steals per game",
+        "DREBperGP": "Defensive rebounds per game",
+        "BLKperGP": "Blocks per game",
+    },
+).update_traces(marker=dict(line=dict(width=1, color="DarkSlateGrey")))
 
 
 # ### Como estão distribuidos os jogadores em termos de bloqueios e faltas pessoais proporcional à minutagem do jogador
@@ -256,7 +251,7 @@ defensive_data = {
     "Player with the most steals": most_stl,
     "Player with the most blocks": most_blk,
     "Player with the most personal fouls": most_pf,
-    "Top 10 players with the most defensive rebounds, steals and blocks per game in a 3d graph": top_10_dreb_stl_blk_pg_3d_3graph,
+    "Players with the most defensive rebounds, steals and blocks per game in a 3d graph": dreb_stl_blk_pg_3d_3graph,
     "Distributions of blocks and personal fouls, with size proportional to minutes played by each player": blk_pf_min_graph,
     "Distributions of steals and defensive rebounds, with size proportional to minutes played by each player": stl_reb_min_graph,
 }
