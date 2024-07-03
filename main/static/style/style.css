@@ -28,7 +28,7 @@ td {
 
 .rose_highlight {
   color: var(--clr-rose);
-  font-size: 1.1em;
+  font-size: 1.18em;
 }
 
 p {
@@ -43,4 +43,8 @@ p {
   color: var(--clr-indigo);
   font-size: 1.1em;
   font-weight: 600;
+}
+
+h3 {
+  font-size: 2em;
 }

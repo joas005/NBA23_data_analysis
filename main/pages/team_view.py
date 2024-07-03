@@ -31,7 +31,7 @@ with open("main/static/style/style.css") as f:
 with col1:
     st.header("Description")
     st.write(
-        "Lorem ipsum dolor sit amet. Et accusamus consectetur vel tempora labore in harum quis qui delectus eius est assumenda dolores ab odit architecto. Qui consequuntur autem et quos impedit quo exercitationem eveniet nam Quis consectetur. Id repellat veritatis ea voluptas dolor non galisum consequuntur est quam quod qui excepturi quia."
+        "Investigates which teams were most successful in various statistical measures during the 2023 season. Find out the team that scored more points, made more blocks, assists and other set records. Hence, our bar-plots show these team performances at a glance, summarizing the achievement of the teams at different occasions in the season."
     )
 
 with col2:

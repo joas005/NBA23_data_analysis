@@ -60,7 +60,7 @@ with open("main/static/style/style.css") as f:
 with col1:
     st.header("Description")
     st.write(
-        "Lorem ipsum dolor sit amet. Et accusamus consectetur vel tempora labore in harum quis qui delectus eius est assumenda dolores ab odit architecto. Qui consequuntur autem et quos impedit quo exercitationem eveniet nam Quis consectetur. Id repellat veritatis ea voluptas dolor non galisum consequuntur est quam quod qui excepturi quia."
+        "Acquire a broad view of certain statistics of the players in each team in the league. We will look at each of the players by their shooting, passing, and other general attributes in order to appreciate them as worthy components of the respective teams. The work includes player profiles and the real-time experience of different trends in players’ performances to perform the analysis of the specific player’s contribution and his/her trends during the match."
     )
 
 with col2:
@@ -137,18 +137,18 @@ if option == "Specific":
     )
     player_selected = st.text_input(
         label="Insert the full name of the player you wish to see",
-        placeholder="Joel Embiid",
+        placeholder="LeBron James",
         label_visibility="hidden",
     )
 
     if player_selected == "":
-        player_selected = "Joel Embiid"
+        player_selected = "LeBron James"
         player_selected_df = specific_player_data(player_selected)
 
     else:
         player_selected_df = specific_player_data(player_selected)
 
-    if player_selected_df["PName"].to_string(index=False) != player_selected:
+    if player_selected_df["PName"].to_string(index=False).lower() != player_selected.lower():
         player_found = False
     else:
         player_found = True
@@ -174,10 +174,10 @@ if option == "Specific":
                         <p class='major_data'>Player's position: <b class='indigo_highlight'>{player_selected_df['POS'].to_string(index=False)}</b></p>
                     </li>
                     <li>
-                        <p class='major_data'>Player's number of DD2: <b class='indigo_highlight'>{player_selected_df['DD2'].to_string(index=False)}</b></p>
+                        <p class='major_data'>Player's number of double doubles: <b class='indigo_highlight'>{player_selected_df['DD2'].to_string(index=False)}</b></p>
                     </li>
                     <li>
-                        <p class='major_data'>Player's number of TD3: <b class='indigo_highlight'>{player_selected_df['TD3'].to_string(index=False)}</b></p>
+                        <p class='major_data'>Player's number of triple doubles: <b class='indigo_highlight'>{player_selected_df['TD3'].to_string(index=False)}</b></p>
                     </li>
                     <li>
                         <p class='major_data'>Player's avarage points per game: <b class='indigo_highlight'>{player_selected_df['PTSperGP'].to_string(index=False)}</b></p>
@@ -217,17 +217,20 @@ if option == "Specific":
                 )
 
         st.subheader("Player stats vs avarage stats from the league")
+        st.markdown(
+            "<p><b class='rose_highlight'>Wich stats</b> do you wish to compare:</p>",
+            unsafe_allow_html=True,
+        )
+
         selected_data_plot = st.multiselect(
-            "Quais dados você deseja ver?", data_to_plot, default=data_to_plot
+            "Quais dados você deseja ver?", data_to_plot, default=['PTS', 'Min', '3PM', '2PM'], label_visibility='hidden'
         )
         player_vs_avarage_graph = create_player_vs_avarage_graph(
             player_selected_df, selected_data_plot
         )
-        st.markdown(
-            f""" 
-        <div class='center-container'>
-           {st.plotly_chart(player_vs_avarage_graph)}
-        </div>
-        """,
-            unsafe_allow_html=True,
-        )
+
+        if len(selected_data_plot) >= 1:
+            st.plotly_chart(player_vs_avarage_graph)
+    
+        else:
+            st.write('Selected the data you want to see')

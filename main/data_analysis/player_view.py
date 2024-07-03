@@ -77,7 +77,6 @@ ft_3_2_made_3d_graph = (
         hover_data="PName",
         template="plotly_dark",
         color="PName",
-        height=600,
         labels={
             "3PM": "3 points made",
             "2PM": "2 points made",
@@ -101,7 +100,7 @@ ast_pts_min_graph = (
         hover_data="PName",
         template="plotly_dark",
         color="PName",
-        height=600,
+        height=700,
         labels={
             "AST": "Assists made",
             "PTS": "Points made",
@@ -274,7 +273,7 @@ data_to_plot = [
 
 
 def specific_player_data(selected_player):
-    return data_merged[data_merged["PName"] == selected_player]
+    return data_merged[data_merged["PName"].str.lower() == selected_player.lower()]
 
 
 def create_player_vs_avarage_graph(player_df, data_to_plot):

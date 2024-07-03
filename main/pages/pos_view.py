@@ -23,7 +23,7 @@ with open("main/static/style/style.css") as f:
 
 st.header("Description")
 st.write(
-    "Lorem ipsum dolor sit amet. Et accusamus consectetur vel tempora labore in harum quis qui delectus eius est assumenda dolores ab odit architecto. Qui consequuntur autem et quos impedit quo exercitationem eveniet nam Quis consectetur. Id repellat veritatis ea voluptas dolor non galisum consequuntur est quam quod qui excepturi quia."
+    "Explore the distribution of the players and their relations to the positions in NBA. For each of the mentioned positions, how many players do they have? How many points were produced by position? In addition to that, they should be able to analyze defensive actions inclusive of blocks and steals accordantly to the position they play. The positional dynamics in the league are further explored in the following insights which are embedded in the interactive charts."
 )
 
 st.header("Offensive positions")
