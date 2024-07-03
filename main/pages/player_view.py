@@ -169,14 +169,14 @@ if option == "Specific":
         for i in range(int(len(data_to_plot) / 2)):
             with data_col1:
                 st.markdown(
-                    f"<p>{full_name_stats_map[data_to_plot[i]]}: <b class='rose_highlight'>{player_selected_df[data_to_plot[i]].to_string(index=False)}</b></p>",
+                    f"<p>{full_name_stats_list[i]}: <b class='rose_highlight'>{player_selected_df[data_to_plot[i]].to_string(index=False)}</b></p>",
                     unsafe_allow_html=True,
                 )
 
         for j in range(int(len(data_to_plot) / 2), int(len(data_to_plot))):
             with data_col2:
                 st.markdown(
-                    f"<p>{full_name_stats_map[data_to_plot[j]]}: <b class='rose_highlight'>{player_selected_df[data_to_plot[j]].to_string(index=False)}</b></p>",
+                    f"<p>{full_name_stats_list[j]}: <b class='rose_highlight'>{player_selected_df[data_to_plot[j]].to_string(index=False)}</b></p>",
                     unsafe_allow_html=True,
                 )
 
