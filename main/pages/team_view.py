@@ -11,6 +11,14 @@ from data_analysis.team_view import (
     specific_team_data,
 )
 
+st.set_page_config(
+    page_title="NBA 2023 stats - Teams",
+    initial_sidebar_state="auto",
+    layout="wide",
+    page_icon="main/static/favicon.ico",
+)
+
+
 st.title("NBA 2023 stats - Teams")
 
 my_bar = st.progress(0)

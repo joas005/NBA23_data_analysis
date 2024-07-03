@@ -12,6 +12,14 @@ from data_analysis.player_view import (
     specific_player_data,
 )
 
+st.set_page_config(
+    page_title="NBA 2023 stats - Players",
+    initial_sidebar_state="auto",
+    layout="wide",
+    page_icon="main/static/favicon.ico",
+)
+
+
 full_name_col = {
     "GP": "Games played",
     "W": "Games won",
