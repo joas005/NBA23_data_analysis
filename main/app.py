@@ -2,7 +2,7 @@ import streamlit as st
 from st_pages import Page, show_pages
 
 st.set_page_config(
-    page_title="NBA 2023 stats",
+    page_title="NBA 2023 data",
     initial_sidebar_state="expanded",
     layout="wide",
     menu_items={
@@ -42,7 +42,7 @@ col1, col2 = st.columns(2)
 
 with col1:
     st.write("Want to know more about me? [Click here!](https://github.com/joas005)")
-    st.title("NBA 2023 stats analysis")
+    st.title("NBA 2023 data analysis")
     st.write(
         "Explore the game beyond the scores. Dive into the heart of NBA action with our interactive data visualizations. From player performance trends to team statistics and game analyses, uncover the stories behind every shot, pass, and dunk. Whether you're a die-hard fan or a curious analyst, our tools empower you to see the game in new dimensions. Get started now and experience the NBA like never before!"
     )
