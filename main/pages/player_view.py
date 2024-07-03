@@ -8,6 +8,8 @@ from data_analysis.player_view import (
     offensive_data,
     defensive_data,
     data_to_plot,
+    full_name_stats_map,
+    full_name_stats_list,
     create_player_vs_avarage_graph,
     specific_player_data,
 )
@@ -18,36 +20,6 @@ st.set_page_config(
     layout="wide",
     page_icon="main/static/favicon.ico",
 )
-
-
-full_name_col = {
-    "GP": "Games played",
-    "W": "Games won",
-    "L": "Games lost",
-    "Min": "Minutes played",
-    "PTS": "Points",
-    "FGM": "Field goals made",
-    "FGA": "Field goals attempted",
-    "FG%": "Field goals efficiency",
-    "3PM": "3 points made",
-    "3PA": "3 points attempted",
-    "3P%": "3 points efficiency",
-    "FTM": "Free throws made",
-    "FTA": "Free throws attempted",
-    "FT%": "Free throws efficiency",
-    "OREB": "Offensive rebounds",
-    "DREB": "Deffensive rebounds",
-    "REB": "Rebounds",
-    "AST": "Assists",
-    "TOV": "Turn-overs",
-    "STL": "Steals",
-    "BLK": "Blocks",
-    "PF": "Personal fouls",
-    "FP": "Foul plays",
-    "2PM": "2 points made",
-    "2PA": "2 points attempted",
-    "2P%": "2 points efficiency",
-}
 
 st.title("NBA 2023 stats - Players")
 
@@ -137,7 +109,10 @@ if option == "Specific":
     else:
         player_selected_df = specific_player_data(player_selected)
 
-    if player_selected_df["PName"].to_string(index=False).lower() != player_selected.lower():
+    if (
+        player_selected_df["PName"].to_string(index=False).lower()
+        != player_selected.lower()
+    ):
         player_found = False
     else:
         player_found = True
@@ -194,14 +169,14 @@ if option == "Specific":
         for i in range(int(len(data_to_plot) / 2)):
             with data_col1:
                 st.markdown(
-                    f"<p>{full_name_col[data_to_plot[i]]}: <b class='rose_highlight'>{player_selected_df[data_to_plot[i]].to_string(index=False)}</b></p>",
+                    f"<p>{full_name_stats_map[data_to_plot[i]]}: <b class='rose_highlight'>{player_selected_df[data_to_plot[i]].to_string(index=False)}</b></p>",
                     unsafe_allow_html=True,
                 )
 
         for j in range(int(len(data_to_plot) / 2), int(len(data_to_plot))):
             with data_col2:
                 st.markdown(
-                    f"<p>{full_name_col[data_to_plot[j]]}: <b class='rose_highlight'>{player_selected_df[data_to_plot[j]].to_string(index=False)}</b></p>",
+                    f"<p>{full_name_stats_map[data_to_plot[j]]}: <b class='rose_highlight'>{player_selected_df[data_to_plot[j]].to_string(index=False)}</b></p>",
                     unsafe_allow_html=True,
                 )
 
@@ -212,7 +187,17 @@ if option == "Specific":
         )
 
         selected_data_plot = st.multiselect(
-            "Quais dados você deseja ver?", data_to_plot, default=['PTS', 'Min', '3PM', '2PM'], label_visibility='hidden'
+            "Quais dados você deseja ver?",
+            full_name_stats_list,
+            default=[
+                "Games played",
+                "Field goals made",
+                "3 points made",
+                "3 points efficiency",
+                "Free throws made",
+                "Offensive rebounds",
+            ],
+            label_visibility="hidden",
         )
         player_vs_avarage_graph = create_player_vs_avarage_graph(
             player_selected_df, selected_data_plot
@@ -220,6 +205,6 @@ if option == "Specific":
 
         if len(selected_data_plot) >= 1:
             st.plotly_chart(player_vs_avarage_graph)
-    
+
         else:
-            st.write('Selected the data you want to see')
+            st.write("Selected the data you want to see")

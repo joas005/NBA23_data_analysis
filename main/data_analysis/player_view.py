@@ -234,6 +234,7 @@ defensive_data = {
 }
 
 data_to_plot = [
+    "Age",
     "GP",
     "W",
     "L",
@@ -262,13 +263,53 @@ data_to_plot = [
     "2P%",
 ]
 
+full_name_stats_map = {
+    "Age": "Age",
+    "GP": "Games played",
+    "W": "Games won",
+    "L": "Games lost",
+    "Min": "Minutes played",
+    "PTS": "Points",
+    "FGM": "Field goals made",
+    "FGA": "Field goals attempted",
+    "FG%": "Field goals efficiency",
+    "3PM": "3 points made",
+    "3PA": "3 points attempted",
+    "3P%": "3 points efficiency",
+    "FTM": "Free throws made",
+    "FTA": "Free throws attempted",
+    "FT%": "Free throws efficiency",
+    "OREB": "Offensive rebounds",
+    "DREB": "Deffensive rebounds",
+    "REB": "Rebounds",
+    "AST": "Assists",
+    "TOV": "Turn-overs",
+    "STL": "Steals",
+    "BLK": "Blocks",
+    "PF": "Personal fouls",
+    "FP": "Foul plays",
+    "2PM": "2 points made",
+    "2PA": "2 points attempted",
+    "2P%": "2 points efficiency",
+}
+
+full_name_stats_list = []
+for chave, valor in full_name_stats_map.items():
+    full_name_stats_list.append(valor)
+
 
 def specific_player_data(selected_player):
     return data_merged[data_merged["PName"].str.lower() == selected_player.lower()]
 
 
-def create_player_vs_avarage_graph(player_df, data_to_plot):
-    mean_values = data_merged[data_to_plot].mean()
+def create_player_vs_avarage_graph(player_df, data_selected):
+    keys_selected = []
+    for item in data_selected:
+        for chave, valor in full_name_stats_map.items():
+            if valor == item:
+                keys_selected.append(chave)
+
+    mean_values = data_merged[keys_selected].mean()
 
     df_means = (
         pd.DataFrame(mean_values, columns=["Mean"])
@@ -282,12 +323,14 @@ def create_player_vs_avarage_graph(player_df, data_to_plot):
     player_vs_avarage = pd.concat([player_df, df_means], ignore_index=True)
 
     player_vs_avarage_long = player_vs_avarage.melt(
-        id_vars=["PName"], value_vars=data_to_plot, var_name="Stats", value_name="Mean"
+        id_vars=["PName"], value_vars=keys_selected, var_name="Stats", value_name="Mean"
     )
+
+    player_vs_avarage_long["Stat name"] = player_vs_avarage_long["Stats"].map(full_name_stats_map)
 
     player_vs_avarage_graph = px.bar(
         player_vs_avarage_long,
-        x="Stats",
+        x="Stat name",
         y="Mean",
         color="PName",
         barmode="group",
