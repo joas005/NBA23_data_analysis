@@ -1,5 +1,7 @@
 # NBA 2023 data analysis
 
+# See the project! https://nba23stats.streamlit.app
+
 ## Description
 Explore the game beyond the scores. Dive into the heart of NBA action with our interactive data visualizations. From player performance trends to team statistics and game analyses, uncover the stories behind every shot, pass, and dunk. Whether you're a die-hard fan or a curious analyst, our tools empower you to see the game in new dimensions. Get started now and experience the NBA like never before!
 
