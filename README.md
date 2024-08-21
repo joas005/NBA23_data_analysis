@@ -10,7 +10,7 @@ This project pulls up the vibrant culture of NBA basketball with the dataset NBA
 
 It can therefore be concluded that the kind providence rendered by AmirHossein Mirzaei in maintaining parsimonious data whereby information is complete and accurate, makes this dataset not only informative but also credible for a host of analytic uses. No matter whether you are a machine learning engineer, working at a sports newspaper, or just love basketball, expand your knowledge on basketball with this dataset on Kaggle: NBA Players Stats 2023 Season
 
-##About the project
+## About the project
 
 ### Team-Based Insights:
 Investigates which teams were most successful in various statistical measures during the 2023 season. Find out the team that scored more points, made more blocks, assists and other set records. Hence, our bar-plots using Plotly Express show these team performances at a glance, summarizing the achievement of the teams at different occasions in the season.
